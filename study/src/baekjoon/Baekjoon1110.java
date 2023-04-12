@@ -1,0 +1,39 @@
+package baekjoon;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+public class Baekjoon1110 {
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		String sn = br.readLine();
+		
+		if (sn.length() != 2) {
+			sn = "0" + sn;
+		}
+		
+		String c = sn;
+		int count = 0;
+		while(true) {
+			count++;
+			
+			String[] a = c.split("");
+			int sum = 0;
+			for (String string : a) {
+				sum += Integer.parseInt(string);
+			}
+			
+			String[] b = String.valueOf(sum).split("");
+			c = a[a.length - 1] + b[(b.length - 1)];
+			
+			if(sn.equals(c)) break;
+		}
+		
+		System.out.println(count);
+	}
+}
