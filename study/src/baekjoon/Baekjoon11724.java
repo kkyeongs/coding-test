@@ -15,6 +15,7 @@ public class Baekjoon11724 {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
 
 		st = new StringTokenizer(br.readLine(), " ");

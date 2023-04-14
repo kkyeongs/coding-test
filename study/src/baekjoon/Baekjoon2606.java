@@ -12,6 +12,7 @@ public class Baekjoon2606 {
 	static boolean[] visited;
 	static int cnt;
 
+	// BFS
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
@@ -52,5 +53,44 @@ public class Baekjoon2606 {
 
 		System.out.println(cnt);
 	}
+	
+	// DFS
+//	public static void main(String[] args) throws NumberFormatException, IOException {
+//		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//		StringBuilder sb = new StringBuilder();
+//		StringTokenizer st;
+//		
+//		N = Integer.parseInt(br.readLine());
+//		M = Integer.parseInt(br.readLine());
+//		
+//		A = new int[N + 1][N + 1];
+//		
+//		for (int i = 0; i < M; i++) {
+//			st = new StringTokenizer(br.readLine(), " ");
+//			
+//			int x = Integer.parseInt(st.nextToken());
+//			int y = Integer.parseInt(st.nextToken());
+//			
+//			A[x][y] = A[y][x] = 1;
+//		}
+//		
+//		visited = new boolean[N + 1];
+//		cnt = 0;
+//		
+//		System.out.println(DFS(1));
+//	}
+//
+//	private static int DFS(int i) {
+//		visited[i] = true;
+//		
+//		for (int j = 0; j < N; j++) {
+//			if(A[i][j] == 1 && !visited[j]) {
+//				cnt++;
+//				DFS(j);
+//			}
+//		}
+//		
+//		return cnt;
+//	}
 
 }
