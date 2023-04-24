@@ -1,6 +1,7 @@
 package programmers_hrd_course;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class 동전뒤집기 {
 
@@ -11,54 +12,48 @@ public class 동전뒤집기 {
 		
 	}
 
-	// 그리디
-	private static int solution(int[][] cost, int[][] order) {
-		int answer = 0;
+	public int solution(int[] coin, int k) {
+		// 동전이 하나면 뒤집을 필요 없음
+		if (coin.length == 1)
+			return 0;
 
-        int maxMonth = 0;
-        for (int[] o : order) maxMonth = Math.max(maxMonth, o[0]);
+		int sum = IntStream.of(coin).sum();
+		// 모두 0이면 sum은 0, 모두 1일 때 sum은 coin.length
+		if (sum == 0 || sum == coin.length)
+			return 0; // 뒤집을 필요 없음
+		if (sum != k && coin.length == k)
+			return -1; // 불가
 
-        int[] monthlyOrder = new int[maxMonth];
-        int need = 0;
-        int made = 0;
-        for (int[] o : order) {
-            // order 배열이 정렬되어 있지 않음에 주의하세요.
-            monthlyOrder[o[0] - 1] += o[1]; // 월을 index로 사용하기 위해 -1을 해줍니다
-            need += o[1];
-        }
+		// flipCoins 로 전달되는 배열의 내용이 변경되기 때문에 Arrays.copyOf 로 배열의 복사본을 전달합니다.
+		int makeAll0 = flipCoins(Arrays.copyOf(coin, coin.length), k, 0); // 모두 0으로 만들 경우
+		int makeAll1 = flipCoins(Arrays.copyOf(coin, coin.length), k, 1); // 모두 1로 만들 경우
+		int answer = Math.min(makeAll0, makeAll1);
+		if (answer == Integer.MAX_VALUE)
+			return -1;
+		return answer;
+	}
 
-        for (int i = 0; i < cost.length - 1; i++) {
-            if (need == 0 || made >= need) break;
+	int flipCoins(int[] coin, int k, int t) {
+		int ret = 0;
 
-            int price = cost[i][1];
-            int limit = cost[i + 1][0] - cost[i][0];
-            int rest = 0;
+		for (int i = 0; i < coin.length - k + 1; i++) {
+			if (coin[i] == t)
+				continue; // 이미 원하는 값인 경우 스킵
 
-            for (int j = 0; j < maxMonth; j++) {
-                if (need == 0 || made >= need) break;
+			for (int j = 0; j < k; j++) {
+				coin[i + j] = 1 - coin[i + j]; // 뒤집기 : 0 -> 1, 1 -> 0
+			}
 
-                int making = Math.min(limit, need - made);
+			ret += 1; // 뒤집은 횟수
+		}
 
-                answer += making * price;
-                made += making;
-                need -= monthlyOrder[j];
+		int count = 0;
+		for (int c : coin)
+			if (c == t)
+				count += 1; // 원하는 값의 개수 세기
 
-                if (monthlyOrder[j] == 0) continue; // 납품을 안해도 됩니다.
-
-                int delivery = Math.min(made, monthlyOrder[j]);
-
-                // 납품할때가 되면 만들어놓은 것에서 빼줍니다.
-                made -= delivery;
-                monthlyOrder[j] -= delivery;
-                rest += monthlyOrder[j]; // 납품하고도 남은것은 다음구간에서 만들어야 합니다.
-            }
-
-            need = rest;
-            made = 0;
-        }
-
-        // 나머지 것들은 최종구간의 가격을 적용합니다.
-        answer += need * cost[cost.length - 1][1];
-        return answer;
+		if (count == coin.length)
+			return ret;
+		return Integer.MAX_VALUE;
 	}
 }

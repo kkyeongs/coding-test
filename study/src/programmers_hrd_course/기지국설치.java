@@ -4,7 +4,7 @@ public class 기지국설치 {
 
 	public static void main(String[] args) {
 		
-		int[] stations = {120, 110, 140, 150};
+		int[] stations = {4, 11};
 		int N = 11;
 		int W = 1;
 		
